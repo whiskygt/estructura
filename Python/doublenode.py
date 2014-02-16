@@ -92,7 +92,7 @@ class List:
 			
 						self.size = self.size + 1
 
-	def eliminar(self, data):
+	def delete(self, data):
 		if(self.size == 0):
 			print "La lista esta vacia."
 		else:
