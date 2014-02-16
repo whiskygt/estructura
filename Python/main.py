@@ -19,14 +19,15 @@ class Menu:
   			print "6. Cargar lista."
   			print "7. Salir" 	
 
-  		eleccion = raw_input("Su opcion: ")
+  		choice = raw_input("Su opcion: ")
+  		return choice
 
 
 if __name__ == '__main__':
 	#node1 = Node('hola')
 	list1 = List()
 	menu = Menu()
-	menu.showMenu()
+	 = menu.showMenu()
 	#list1.insert(1, 5)
 	
 	flag = 1

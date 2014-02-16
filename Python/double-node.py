@@ -8,6 +8,7 @@ class Node:
 	def __init__(self, data):
 		self.data = data
 		self.next = None
+		self.previous = None
 
 	def __str__(self):
 		return str(self.data)
@@ -21,28 +22,38 @@ class List:
 		self.last = None
 		self.size = 0
 
+	def __str__(self):
+		result = '['
+		current = self.first
+		for i in xrange(self.size):
+			if i == self.size - 1:  result += str(current)
+			else:
+				result += str(current) + ", "
+				current = current.next
+		result += ']'
+		return result
 
 	def insertFirst(self, data):
-		print "Inicio1"
 		current = self.first
 		newNode = Node(data)
+
 		newNode.next = current
+		newNode.previous = None
+		newNode.next.previous = newNode
 		self.first = newNode
 		self.size = self.size + 1
-		print "Inicio2"
 
 	def insertLast(self, data):
-		print "Final1"
 		current = self.last
 		newNode = Node(data)
-		current.next = newNode
+
+		newNode.next = None
+		newNode.previous = current
+		newNode.previous.next = newNode
 		self.last=newNode
 		self.size = self.size + 1
-		print "Final2"
 
 	def insert(self, index, data):
-
-
 		limit = min(self.size+1, index)
 		print "El index es ", limit
 
@@ -51,6 +62,7 @@ class List:
 			newNode = Node(data)
 			self.first = self.last = newNode
 			newNode.next = None
+			newNode.previous = None
 			self.size = self.size + 1
 
 		else:
@@ -67,41 +79,40 @@ class List:
 					if index!=1 or index<self.size+1:
 						print "Insertando en ", index, " posicion."
 						current = self.first
-						newNode = Node(data)	
-						for i in xrange(index-2):
+						newNode = Node(data)
+
+						for i in xrange(index-1):
 							current = current.next
 
-						newNode.next = current.next
-						current.next = newNode
+						
+						newNode.previous = current.previous
+						newNode.next = current
+						current.previous.next = newNode
+						current.previous = newNode
 			
 						self.size = self.size + 1
 
-	def __str__(self):
-		result = '['
-		current = self.first
-		for i in xrange(self.size):
-			if i == self.size - 1:  result += str(current)
-			else:
-				result += str(current) + ", "
-				current = current.next
-		result += ']'
-		return result
+	def eliminar(self, data):
+		if(self.size == 0):
+			print "La lista esta vacia."
+		else:
+			pos = self.searchItem(data)
+
+
+	def searchItem(self, data):
+		if(self.size == 0):
+			print "La lista esta vacia"
+			return 0
+		else:
+			i=1
+			search = self.first
+
+			while(search.data != data):
+				search=search.next
+				i = i + 1
+
+			return i
 
 
 
 
-if __name__ == '__main__':
-	#node1 = Node('hola')
-	list1 = List()
-	#list1.insert(1, 5)
-	flag = 1
-	while flag!=0:
-		data = raw_input("Inserte un valor: ")
-		pos = raw_input("Inserte una posicion: ")
-		pos = int(pos)
-		list1.insert(pos, data)
-		print(list1)
-		flag = raw_input("Presione 0 para dejar de introducir datos: ")
-
-	#print(list1)
-	#list1.insert(6, 'hola')

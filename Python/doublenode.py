@@ -148,7 +148,3 @@ class List:
 				i = i + 1
 
 			return i
-
-
-
-
