@@ -56,6 +56,7 @@ class List:
 	def insert(self, index, data):
 		limit = min(self.size+1, index)
 		print "El index es ", limit
+		print "El size es ", self.size
 
 		if self.size == 0:
 			print "Lista vacia, agregando elemento."
@@ -148,3 +149,7 @@ class List:
 				i = i + 1
 
 			return i
+
+	def getSize(self):
+		print self.size
+		return int(self.size)
