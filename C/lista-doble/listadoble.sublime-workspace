@@ -28,18 +28,18 @@
 	"buffers":
 	[
 		{
-			"file": "lista.c",
+			"file": "list.h",
 			"settings":
 			{
-				"buffer_size": 5926,
+				"buffer_size": 5793,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "list.h",
+			"file": "lista.c",
 			"settings":
 			{
-				"buffer_size": 5791,
+				"buffer_size": 5107,
 				"line_ending": "Unix"
 			}
 		}
@@ -120,6 +120,10 @@
 	},
 	"file_history":
 	[
+		"/home/lfer123/estructura/Python/list.py",
+		"/home/lfer123/estructura/Python/node.py",
+		"/home/lfer123/estructura/C/lista-doble/lista.c",
+		"/home/lfer123/estructura/C/lista-doble/list.h",
 		"/home/lfer123/Documentos/Estructura de Datos/ProjectsC/Lista doblemente enlazada/list.txt",
 		"/home/lfer123/Desktop/Cuarto Día/Taller",
 		"/home/lfer123/Documentos/apuntes IO2 07-02.txt",
@@ -240,29 +244,28 @@
 			[
 				{
 					"buffer": 0,
-					"file": "lista.c",
+					"file": "list.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5926,
+						"buffer_size": 5793,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2564,
-								2564
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"translate_tabs_to_spaces": false,
-							"word_wrap": true
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2133.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -270,30 +273,27 @@
 				},
 				{
 					"buffer": 1,
-					"file": "list.h",
+					"file": "lista.c",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5791,
+						"buffer_size": 5107,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2110,
-								2110
+								94,
+								94
 							]
 						],
 						"settings":
 						{
-							"auto_name": "",
-							"syntax": "Packages/C++/C.tmLanguage",
-							"translate_tabs_to_spaces": false,
-							"word_wrap": true
+							"syntax": "Packages/C++/C.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1960.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
