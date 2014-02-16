@@ -36,9 +36,17 @@ if __name__ == '__main__':
 		pos = int(pos)
 		list1.insert(pos, data)
 		print(list1)
-		pos = list1.searchItem("arreglo")
-		print "Arreglo se encontro en la posicion ", pos
-		flag = raw_input("Presione 0 para dejar de introducir datos: ")
+#		pos = list1.searchItem("arreglo")
+#		print "Arreglo se encontro en la posicion ", pos
+		flag = raw_input("Presione 0 para dejar de introducir datos, o presione 1 para seguir introduciendo: ")
+		flag = int(flag)
+
+	flag = 1
+	while flag!=0:
+		data = raw_input("Inserte el elemento que desea eliminar: ")
+		list1.delete(data)
+		print(list1)
+		flag = raw_input("Presione 0 para dejar de eliminar datos: ")
 		flag = int(flag)
 	#print(list1)
 	#list1.insert(6, 'hola')

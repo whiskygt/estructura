@@ -97,6 +97,42 @@ class List:
 			print "La lista esta vacia."
 		else:
 			pos = self.searchItem(data)
+			print "Encontrado en: ", pos
+			pos = int(pos)
+			if pos == 0:
+				print "No se encontro el nodo."
+
+			elif self.size == 1:
+				self.first = None
+				self.last = None
+				
+				self.size = 0
+
+			elif pos == 1:
+				killme = self.first
+				self.first = killme.next
+				killme.next.previous = None
+
+				self.size = self.size - 1
+
+			elif pos == self.size:
+				killme = self.last
+				self.last = killme.previous
+				killme.previous.next=None
+
+				self.size = self.size - 1
+
+			else:
+				current = self.first
+
+				for i in xrange(pos):
+					current = current.next
+
+				killme = current.previous
+				killme.previous.next = current
+				current.previous = killme.previous
+
+				self.size = self.size - 1
 
 
 	def searchItem(self, data):
