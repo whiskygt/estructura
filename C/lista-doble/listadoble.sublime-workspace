@@ -1,0 +1,390 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"list",
+				"ListaD"
+			],
+			[
+				"s",
+				"s"
+			],
+			[
+				"last",
+				"lastChance"
+			],
+			[
+				"eli",
+				"eliminarAlPrincipio"
+			],
+			[
+				"pos",
+				"pos"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "lista.c",
+			"settings":
+			{
+				"buffer_size": 5926,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "list.h",
+			"settings":
+			{
+				"buffer_size": 5791,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/User/C.sublime-build",
+	"command_palette":
+	{
+		"height": 375.0,
+		"selected_items":
+		[
+			[
+				"lines",
+				"Sort Lines"
+			],
+			[
+				"line",
+				"Sort Lines"
+			],
+			[
+				"syntax c",
+				"Set Syntax: C"
+			],
+			[
+				"men",
+				"View: Toggle Menu"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"i",
+				"View: Toggle Menu"
+			],
+			[
+				"setsyntax c",
+				"Set Syntax: C"
+			],
+			[
+				"setsyntax: c",
+				"Set Syntax: C"
+			],
+			[
+				"set sytax: c",
+				"Set Syntax: C"
+			],
+			[
+				"syntax: c",
+				"Set Syntax: C"
+			],
+			[
+				"synt",
+				"Set Syntax: Tcl"
+			],
+			[
+				"syntax",
+				"Set Syntax: C"
+			]
+		],
+		"width": 435.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/lfer123/Documentos/Estructura de Datos/ProjectsC/Lista doblemente enlazada/list.txt",
+		"/home/lfer123/Desktop/Cuarto Día/Taller",
+		"/home/lfer123/Documentos/apuntes IO2 07-02.txt",
+		"/opt/lampp/htdocs/ingenieria/sites/all/themes/zircon/skins/green/style.css",
+		"/etc/rc.local",
+		"/home/lfer123/Descargas/logo azul.svg",
+		"/opt/lampp/htdocs/ingenieria/index.php",
+		"/home/lfer123/.cache/.fr-MVdqhj/admin_menu/README.txt",
+		"/opt/lampp/htdocs/ingenieria/sites/all/themes/bootstrap/bootstrap.make.example",
+		"/home/lfer123/Descargas/Person of Interest 3x14 - Provenance (Español (España)).srt",
+		"/opt/lampp/htdocs/ingenieria/sites/all/themes/README.txt",
+		"/home/lfer123/.config/sublime-text-3/Packages/User/C.sublime-build",
+		"/opt/lampp/htdocs/initializr/index.html",
+		"/bin/abajo",
+		"/home/lfer123/abajo",
+		"/usr/share/themes/Lion/gtk-3.0/apps.css",
+		"/usr/share/icons/Pacifica/index.theme",
+		"/usr/share/icons/simple/index.theme",
+		"/usr/share/icons/Pacifica-U/index.theme",
+		"/media/LFER16/Lion/index.theme",
+		"/home/lfer123/.cache/.fr-G1XB2g/simple/index.theme",
+		"/bin/abajo.sh",
+		"/home/lfer123/Desktop/abajo.sh",
+		"/home/lfer123/.cache/.fr-00mErr/LibreOffice_4.2.0.4_Linux_x86-64_deb/readmes/README_en-US",
+		"/home/lfer123/Documentos/Lab Estructura de Datos/Segundo Día/Teoria.odt",
+		"/home/lfer123/ProjectsC/ejemploslab.sublime-project",
+		"/home/lfer123/.xmodmaprc",
+		"/home/lfer123/ProjectsC/Ejemplos/.xmodmaprc",
+		"/home/lfer123/ProjectsC/prueba.c",
+		"/home/lfer123/ProjectsC/Ejemplos/prueba.c",
+		"/home/lfer123/ProjectsC/Ejemplos/main.c",
+		"/home/lfer123/ProjectsC/main.c",
+		"/home/lfer123/ProjectsC/ejemplos.sublime-project",
+		"/home/lfer123/.bash_logout",
+		"/home/lfer123/.bash_history",
+		"/opt/lampp/htdocs/dcms/xmlrpc.php",
+		"/opt/lampp/htdocs/dcms/index.php",
+		"/opt/lampp/htdocs/dcms/scripts/dump-database-d6.sh",
+		"/opt/lampp/htdocs/dcms/scripts/cron-curl.sh",
+		"/home/lfer123/ProjectsC/a.out",
+		"/home/lfer123/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/lfer123/andromeda/theme-settings.php",
+		"/home/lfer123/andromeda/template.php"
+	],
+	"find":
+	{
+		"height": 31.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"insertar",
+			"killme=current->previous",
+			"next",
+			"1",
+			"ListaD",
+			"actual",
+			"-",
+			"getchar",
+			"list",
+			"List",
+			"list",
+			"\"",
+			"'",
+			"\"",
+			"'",
+			"if",
+			"lista",
+			"list",
+			"lista",
+			"nuevo",
+			"}",
+			"Adición",
+			"tamaño",
+			"int",
+			"eleccion",
+			"elección",
+			"k",
+			"c",
+			"ca",
+			"char",
+			"Element",
+			"nuevo_elemento",
+			"nodo",
+			"lista",
+			"printf",
+			"ultimo",
+			";\n",
+			"();\n"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "lista.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5926,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2564,
+								2564
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2133.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "list.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5791,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2110,
+								2110
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/C++/C.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1960.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 31.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 97.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "listadoble.sublime-project",
+	"replace":
+	{
+		"height": 58.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"~/Documentos/Estructura de Datos/ProjectsC/Lista/lista.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 153.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

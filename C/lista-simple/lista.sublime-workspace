@@ -1,0 +1,383 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"s",
+				"s"
+			],
+			[
+				"last",
+				"lastChance"
+			],
+			[
+				"eli",
+				"eliminarAlPrincipio"
+			],
+			[
+				"pos",
+				"pos"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "lista.c",
+			"settings":
+			{
+				"buffer_size": 4689,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n#include \"nodo.h\"\n\ntypedef struct Lista\n{\n  Nodo *first;\n	Nodo *last;\n	int size;\n}Lista;\n\n//Inicia la lista.\nvoid iniciar(Lista *lista);\n\n//Inserta el primer elemento en la lista.\nint insertarEnListaVacia(Lista *lista, char *dato);\n\n//Inserta un elemento al principio de la lista,\nint insertarAlPrincipio(Lista *lista, char *dato);\n\n//Inserta un elemento al final de la lista.\nint insertarAlFinal(Lista *lista, Nodo *actual, char *dato);\n\n//Inserta un elemento después de una posición determinada.\nint insertarLista(Lista *lista, char *dato, int pos);\n\n//Elimina un elemento que se encuentra al principio de la lista.\nint eliminarAlPrincipio(Lista *lista);\n\n//Elimina al elemento que se encuentra después de una posición determinada.\nint eliminarDeLista(Lista *lista, int pos);\n\n//Elimina la lista. \nvoid eliminarLista(Lista *lista);\n\n//Imprime la lista.\nvoid mostrarLista(Lista *lista);\n\n\n\nvoid iniciar(Lista *lista)\n{\n	lista->first = NULL;\n	lista->last = NULL;\n	lista->size = 0;\n}\n\nint insertarEnListaVacia(Lista *lista, char *dato)\n{\n	Nodo *nuevo;\n\n	if ((nuevo = (Nodo*) malloc (sizeof (Nodo))) == NULL)\n	{\n		return -1;\n	}\n  	\n  if ((nuevo->dato = (char*) malloc (sizeof(char)*50)) == NULL)\n  {\n  	return -1;\n  }\n  strcpy (nuevo->dato, dato);\n\n  nuevo->next=NULL;\n  lista->first=nuevo;\n  lista->last=nuevo;\n  lista->size++;\n \n  return 0;\n}\n\nint insertarAlPrincipio(Lista *lista, char *dato)\n{\n	Nodo *nuevo;\n\n	if ((nuevo = (Nodo *) malloc (sizeof (Nodo))) == NULL)\n	{\n		return -1;\n	}\n  	\n  if ((nuevo->dato = (char *) malloc (sizeof(char)*50)) == NULL)\n  {\n  	return -1;\n  }\n  strcpy ((char *)nuevo->dato, dato);\n\n  nuevo->next = lista->first;\n  lista->first = nuevo;\n  lista->size++;\n\n  return 0;\n}\n\nint insertarAlFinal(Lista *lista, Nodo *actual, char *dato)\n{\n	Nodo *nuevo;\n  \n	if ((nuevo = (Nodo *) malloc (sizeof (Nodo))) == NULL)\n	{\n		return -1;\n	}\n  	\n  if ((nuevo->dato = (char *) malloc (sizeof(char)*50)) == NULL)\n  {\n  	return -1;\n  }\n  strcpy (nuevo->dato, dato);\n\n  	actual->next = nuevo;\n  	nuevo->next = NULL;\n    lista->last = nuevo;\n  	lista->size++;\n\n  	return 0;\n}\n\nint insertarLista(Lista *lista, char *dato, int pos)\n{\n  if (lista->size < 2)\n  {\n    return -1;\n  }\n\n  if (pos < 1 || pos >= lista->size)\n  {\n    return -1;\n  }\n\n  Nodo *actual;\n  Nodo *nuevo;\n  int i;\n\n  if ((nuevo = (Nodo *) malloc (sizeof (Nodo))) == NULL)\n  {\n    return -1;\n  }\n    \n  if ((nuevo->dato = (char *) malloc (sizeof(char)*50)) == NULL)\n  {\n    return -1;\n  }\n  \n  actual = lista->first;\n\n  for(i = 1; i<pos; i++)\n  {\n    actual = actual->next;\n    if (actual->next==NULL) return -1;\n  }\n  \n  strcpy (nuevo->dato, dato);\n\n  nuevo->next = actual->next;\n  actual->next = nuevo;\n  lista->size++;\n\n  return 0;\n}\n\nint eliminarAlPrincipio(Lista *lista)\n{\n  if(lista->size==0)\n  {\n    return -1;\n  } \n\n  Nodo *killme;\n  killme = lista->first;\n  lista->first = lista->first->next;\n  \n  if(lista->size == 1)\n  {\n    lista->last = NULL;\n  }\n\n  free(killme->dato);\n  free(killme);\n  lista->size--;\n\n  return 0;\n}\n\nint eliminarDeLista(Lista *lista, int pos)\n{\n  if (lista->size<=1 || pos < 1 || pos >= lista->size)\n  {\n    return -1;\n  }\n\n  int i;\n  Nodo *actual;\n  Nodo *killme;\n\n  actual = lista->first;\n\n  for(i = 1; i<pos; ++i)\n  {\n    actual = actual->next;\n  }\n\n  killme = actual->next;\n  actual->next = actual->next->next;\n  \n  if(actual->next==NULL)\n  {\n    lista->last = actual;\n  }\n\n  free(killme->dato);\n  free(killme);\n  lista->size--;\n\n  return 0;\n\n}\n\nvoid mostrarLista(Lista *lista)\n{\n	Nodo *actual;\n	actual = lista->first;\n\n  printf(\"-- ELEMENTOS DE LA LISTA --\\n\");\n\n	while(actual != NULL)\n	{\n    printf(\"%p - %s\\n\", actual, actual->dato);\n		actual = actual->next;\n	}\n  printf(\"\\nPresione alguna tecla para continuar...\\n\");\n  getchar();\n}\n\nvoid eliminarLista(Lista *lista)\n{\n  while (lista->size>0)\n  {\n    eliminarAlPrincipio(lista);\n  }\n}",
+			"file": "list.h",
+			"file_size": 3912,
+			"file_write_time": 130362052660421934,
+			"settings":
+			{
+				"buffer_size": 3908,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "nodo.h",
+			"settings":
+			{
+				"buffer_size": 100,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/User/C.sublime-build",
+	"command_palette":
+	{
+		"height": 375.0,
+		"selected_items":
+		[
+			[
+				"syntax c",
+				"Set Syntax: C"
+			],
+			[
+				"menu",
+				"View: Toggle Menu"
+			],
+			[
+				"setsyntax c",
+				"Set Syntax: C"
+			],
+			[
+				"setsyntax: c",
+				"Set Syntax: C"
+			],
+			[
+				"set sytax: c",
+				"Set Syntax: C"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"syntax: c",
+				"Set Syntax: C"
+			],
+			[
+				"synt",
+				"Set Syntax: Tcl"
+			],
+			[
+				"syntax",
+				"Set Syntax: C"
+			]
+		],
+		"width": 435.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/lfer123/Documentos/Estructura de Datos/ProjectsC/Lista/lista.sublime-project",
+		"/opt/lampp/htdocs/initializr/index.html",
+		"/home/lfer123/.config/sublime-text-3/Packages/User/C.sublime-build",
+		"/bin/abajo",
+		"/home/lfer123/abajo",
+		"/usr/share/themes/Lion/gtk-3.0/apps.css",
+		"/usr/share/icons/Pacifica/index.theme",
+		"/usr/share/icons/simple/index.theme",
+		"/usr/share/icons/Pacifica-U/index.theme",
+		"/media/LFER16/Lion/index.theme",
+		"/home/lfer123/.cache/.fr-G1XB2g/simple/index.theme",
+		"/bin/abajo.sh",
+		"/home/lfer123/Desktop/abajo.sh",
+		"/home/lfer123/.cache/.fr-00mErr/LibreOffice_4.2.0.4_Linux_x86-64_deb/readmes/README_en-US",
+		"/home/lfer123/Documentos/Lab Estructura de Datos/Segundo Día/Teoria.odt",
+		"/home/lfer123/ProjectsC/ejemploslab.sublime-project",
+		"/home/lfer123/.xmodmaprc",
+		"/home/lfer123/ProjectsC/Ejemplos/.xmodmaprc",
+		"/home/lfer123/ProjectsC/prueba.c",
+		"/home/lfer123/ProjectsC/Ejemplos/prueba.c",
+		"/home/lfer123/ProjectsC/Ejemplos/main.c",
+		"/home/lfer123/ProjectsC/main.c",
+		"/home/lfer123/ProjectsC/ejemplos.sublime-project",
+		"/home/lfer123/.bash_logout",
+		"/home/lfer123/.bash_history",
+		"/opt/lampp/htdocs/dcms/xmlrpc.php",
+		"/opt/lampp/htdocs/dcms/index.php",
+		"/opt/lampp/htdocs/dcms/scripts/dump-database-d6.sh",
+		"/opt/lampp/htdocs/dcms/scripts/cron-curl.sh",
+		"/home/lfer123/ProjectsC/a.out",
+		"/home/lfer123/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/lfer123/andromeda/theme-settings.php",
+		"/home/lfer123/andromeda/template.php"
+	],
+	"find":
+	{
+		"height": 37.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"p",
+			"}",
+			"Adición",
+			"tamaño",
+			"int",
+			"eleccion",
+			"elección",
+			"k",
+			"c",
+			"ca",
+			"char",
+			"Element",
+			"nuevo_elemento",
+			"nodo",
+			"lista",
+			"printf",
+			"ultimo",
+			";\n",
+			"();\n"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": true,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "lista.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4689,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4276,
+								4276
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 197.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "list.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3908,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2142,
+								2129
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2322.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "nodo.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 100,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								92,
+								92
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 167.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "lista.sublime-project",
+	"replace":
+	{
+		"height": 46.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"~/Documentos/Estructura de Datos/ProjectsC/Lista doblemente enlazada/listadoble.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
