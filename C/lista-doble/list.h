@@ -173,9 +173,9 @@ int insertar(ListaD *list, char *data, int file)
 
 	if(pos==1) return insertarInicio(list, data);
 
-	if(pos==list->size+1) return insertarFinal(list, data);
+	if(pos>=list->size+1) return insertarFinal(list, data);
 
-	if(pos>list->size+1) return -1;
+	//if(pos>list->size+1) return -1;
 
 	Nodo *new;
 	Nodo *current;

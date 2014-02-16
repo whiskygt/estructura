@@ -250,41 +250,5 @@ int main()
 		}
 	}
 
-/*	printf("\nLa lista se ha creado.\n");
-	printf("Presione una tecla para continuar\n");
-	getchar();
-
-	
-
-	printf("\nElemento agregado correctamente.\n");
-
-	printf("\nAhora se agregará un elemento al principio.");
-	printf("\nPara continuar, ingrese el elemento: ");
-	scanf("%s", data);
-	getchar();
-
-	printf("\nAgregando elemento, por favor espere.\n");
-	insertar(list, data, 1);
-
-	loading(0.1);
-
-	printf("\nElemento agregado correctamente.\n");
-
-	printf("\nAhora se agregará un elemento al final.");
-	printf("\nPara continuar, ingrese el elemento: ");
-	scanf("%s", data);
-	getchar();
-
-	printf("\nAgregando elemento, por favor espere.\n");
-	insertar(list, data, list->size);
-
-	loading(0.1);
-
-	printf("\nElemento agregado correctamente.\n");
-
-	printf("Presione cualquier tecla para mostrar la lista. \n");
-	getchar();
-*/
-
 	return 0;
 }
