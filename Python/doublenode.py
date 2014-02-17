@@ -55,11 +55,11 @@ class List:
 
 	def insert(self, index, data):
 		limit = min(self.size+1, index)
-		print "El index es ", limit
-		print "El size es ", self.size
 
+		print ""
 		if self.size == 0:
-			print "Lista vacia, agregando elemento."
+
+			print "Insertando en lista vacia."
 			newNode = Node(data)
 			self.first = self.last = newNode
 			newNode.next = None
@@ -96,18 +96,19 @@ class List:
 	def delete(self, data):
 		if(self.size == 0):
 			print "La lista esta vacia."
+
 		else:
 			pos = self.searchItem(data)
-			print "Encontrado en: ", pos
 			pos = int(pos)
 			if pos == 0:
-				print "No se encontro el nodo."
+				print "No se encontro el elemento."
 
 			elif self.size == 1:
 				self.first = None
 				self.last = None
 				
 				self.size = 0
+				print 
 
 			elif pos == 1:
 				killme = self.first
@@ -134,7 +135,15 @@ class List:
 				current.previous = killme.previous
 
 				self.size = self.size - 1
+			print "Elemento eliminado"
+			print ""
 
+	def destroy():
+		current = self.first
+
+		while(self.size>0):
+			delete(str(current))
+			current = current.next
 
 	def searchItem(self, data):
 		if(self.size == 0):
@@ -144,12 +153,33 @@ class List:
 			i=1
 			search = self.first
 
-			while(search.data != data):
-				search=search.next
-				i = i + 1
-
+			while search.data != data:
+				if(search.next):
+					search=search.next
+					i = i + 1
+				else:
+					#print "Elemento no encontrado"
+					i = 0
+					break
 			return i
 
 	def getSize(self):
 		print self.size
 		return int(self.size)
+
+	def saveFile(self):
+		current = self.first
+		file1 = open("list.txt", "w")
+		for i in xrange(self.size):
+			file1.write(current.data)
+			file1.write(" ")
+			current = current.next
+
+		file1.close()
+
+	def readFile(self):
+		file1 = open("list.txt", "r")
+		i = 0
+		for line in file1:
+			i = i+1
+			self.insert(i, line)
