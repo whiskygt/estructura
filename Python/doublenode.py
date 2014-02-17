@@ -23,7 +23,7 @@ class List:
 		self.size = 0
 
 	def __str__(self):
-		result = '['
+		result = 'Elementos de la lista: ['
 		current = self.first
 		for i in xrange(self.size):
 			if i == self.size - 1:  result += str(current)
@@ -56,10 +56,8 @@ class List:
 	def insert(self, index, data):
 		limit = min(self.size+1, index)
 
-		print ""
+		
 		if self.size == 0:
-
-			print "Insertando en lista vacia."
 			newNode = Node(data)
 			self.first = self.last = newNode
 			newNode.next = None
@@ -68,17 +66,14 @@ class List:
 
 		else:
 			if limit==1:
-				print "Insertando al principio."
 				self.insertFirst(data)
 
 			else:
 				if index !=1 and index>=self.size+1:
-					print "Insertando al final."
 					self.insertLast(data)
 			
 				else:
 					if index!=1 or index<self.size+1:
-						print "Insertando en ", index, " posicion."
 						current = self.first
 						newNode = Node(data)
 
@@ -135,8 +130,6 @@ class List:
 				current.previous = killme.previous
 
 				self.size = self.size - 1
-			print "Elemento eliminado"
-			print ""
 
 	def destroy(self):
 		current = self.first
@@ -178,10 +171,16 @@ class List:
 		file1.close()
 
 	def readFile(self):
-		file1 = open("list.txt", "r")
-		i = 0
-		for line in file1:
-			i = i+1
-			line = line[:-1]
-			print line
-			self.insert(i, line)
+		try:
+			file1 = open("list.txt", "r")
+			i = 0
+			for line in file1:
+				i = i+1
+				line = line[:-1]
+				self.insert(i, line)
+
+			file1.close()
+			
+		except IOError:
+			print "No hay ninguna lista guardada."
+		

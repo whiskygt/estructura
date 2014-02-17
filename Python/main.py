@@ -1,4 +1,5 @@
 from doublenode import List
+import sys
 
 class Menu:
 	
@@ -6,7 +7,7 @@ class Menu:
 	def showMenu(self):
 		
 		print ""
-		print "Menu de Lista, size de lista: "
+		print "Menu de Lista"
 		print ""
   	
   		if list1.size == 0:
@@ -29,9 +30,20 @@ class Menu:
   		return choice
 
   	def add(self):
+  		flag = 0
 		data = raw_input("Inserte un valor: ")
-		pos = raw_input("Inserte una posicion: ")
-		pos = int(pos)
+		while flag == 0:
+			try:
+				pos = raw_input("Inserte una posicion: ")
+				pos = int(pos)
+				flag = 1
+			except ValueError:
+				print ""
+	  			print "Introduzca solo numeros."
+	  			useless = raw_input("Presione cualquier tecla para continuar: ")
+	  			print ""
+	  			flag = 0
+
 		list1.insert(pos, data)
 		print "Elemento insertado."
 		print ""
@@ -44,7 +56,6 @@ class Menu:
 		useless = raw_input("Presione cualquier tecla para continuar: ")
 
 	def show(self):
-		print ""
 		print(list1)
 		useless = raw_input("Presione cualquier tecla para continuar: ")
 
@@ -70,13 +81,14 @@ class Menu:
 		useless = raw_input("Presione cualquier tecla para continuar: ")
 
 	def exit(self):
-		choice=int(7)
+		sys.exit(0)
 
 
 
 if __name__ == '__main__':
 	
 	choice = 0
+	
 
 	list1 = List()
 
@@ -84,7 +96,6 @@ if __name__ == '__main__':
 
 	optionsEmpty = {1 : menu.add,
 					 2 : menu.load,
-					 3 : menu.exit,
 	}
 
 	options = {1 : menu.add,
@@ -93,13 +104,22 @@ if __name__ == '__main__':
                 4 : menu.destroy,
                 5 : menu.save,
                 6 : menu.load,
-                7 : menu.exit,
+                7 : menu.exit
 	}
 
 	while choice!=7:
-
-		choice = menu.showMenu()
-		choice = int(choice)
+		flag = 0
+		while flag == 0:
+			try:
+				choice = menu.showMenu()
+				choice = int(choice)
+				flag = 1
+			except ValueError:
+				print ""
+				print "Introduzca solo numeros."
+				useless = raw_input("Presione cualquier tecla para continuar: ")
+				print ""
+				flag = 0
 
 		if list1.size==0:
 			if choice == 3:
@@ -109,26 +129,3 @@ if __name__ == '__main__':
 
 		else:	
 			options[choice]()
-
-	#MAIN ANTIGUO
-# 	flag = 1
-# 	while flag!=0:
-# 		data = raw_input("Inserte un valor: ")
-# 		pos = raw_input("Inserte una posicion: ")
-# 		pos = int(pos)
-# 		list1.insert(pos, data)
-# 		print(list1)
-# #		pos = list1.searchItem("arreglo")
-# #		print "Arreglo se encontro en la posicion ", pos
-# 		flag = raw_input("Presione 0 para dejar de introducir datos, o presione 1 para seguir introduciendo: ")
-# 		flag = int(flag)
-
-# 	flag = 1
-# 	while flag!=0:
-# 		data = raw_input("Inserte el elemento que desea eliminar: ")
-# 		list1.delete(data)
-# 		print(list1)
-# 		flag = raw_input("Presione 0 para dejar de eliminar datos: ")
-# 		flag = int(flag)
-	#print(list1)
-	#list1.insert(6, 'hola')
