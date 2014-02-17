@@ -182,4 +182,6 @@ class List:
 		i = 0
 		for line in file1:
 			i = i+1
+			line = line[:-1]
+			print line
 			self.insert(i, line)
