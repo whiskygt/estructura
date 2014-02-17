@@ -138,11 +138,11 @@ class List:
 			print "Elemento eliminado"
 			print ""
 
-	def destroy():
+	def destroy(self):
 		current = self.first
 
 		while(self.size>0):
-			delete(str(current))
+			self.delete(str(current))
 			current = current.next
 
 	def searchItem(self, data):

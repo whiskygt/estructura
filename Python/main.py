@@ -50,7 +50,7 @@ class Menu:
 
 	def destroy(self):
 		print "Esta seguro que desea eliminar la lista?" 
-		lastChance = raw_imput("Presione Y para eliminarla o cualquier tecla para conservarla: ")
+		lastChance = raw_input("Presione Y para eliminarla o cualquier tecla para conservarla: ")
 		if lastChance == 'Y' or lastChance == 'y':
 			list1.destroy()
 			print "Se ha eliminado la lista."
@@ -65,6 +65,7 @@ class Menu:
 		useless = raw_input("Presione cualquier tecla para continuar: ")
 
 	def load(self):
+		list1.destroy()
 		list1.readFile()
 		useless = raw_input("Presione cualquier tecla para continuar: ")
 
