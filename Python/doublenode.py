@@ -172,7 +172,7 @@ class List:
 		file1 = open("list.txt", "w")
 		for i in xrange(self.size):
 			file1.write(current.data)
-			file1.write(" ")
+			file1.write("\n")
 			current = current.next
 
 		file1.close()
