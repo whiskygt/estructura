@@ -39,11 +39,11 @@ int insertarFinal(ListaD *list, char *data);
 //Inserta en una posición determinada.
 int insertar(ListaD *list, char *data, int file);
 
-//Elimina un elemento de la lista.
-int eliminar(ListaD *list, char *data);
-
 //Imprime la lista.
 void showList(ListaD *list);
+
+//Elimina un elemento de la lista.
+int eliminar(ListaD *list, char *data);
 
 //Elimina toda la lista.
 void eliminarLista(ListaD *list);
@@ -54,6 +54,9 @@ void saveFile(ListaD *list);
 //Lee los datos de la lista que están escritos en un archivo externo.
 void readFile(ListaD *list);
 
+//Establece la posición del elemento.
+void position(int position);
+
 void inicializar(ListaD *list)
 {
 	list->first=NULL;
@@ -61,7 +64,7 @@ void inicializar(ListaD *list)
 	list->size=0;
 }
 
-int buscarNodo(ListaD *list, char *data)
+int buscarNodo(ListaD *list, char *dato)
 {
 	if(list==NULL) return 0;
 	if(list->size==0) return 1;
@@ -73,7 +76,7 @@ int buscarNodo(ListaD *list, char *data)
 
 		search = list->first;
 
-		while(strcmp(data, search->data))
+		while(strcmp(dato, search->data))
 		{
 			if(search->next==NULL) return 0;
 			search=search->next;
@@ -164,8 +167,6 @@ int insertar(ListaD *list, char *data, int file)
 
 	if(list->size==0) return insertarVacio(list, data);
 
-	//pos = buscarNodo(list, data);
-
 	if (file)
 	{		
 		pos=list->size+1;
@@ -174,8 +175,6 @@ int insertar(ListaD *list, char *data, int file)
 	if(pos==1) return insertarInicio(list, data);
 
 	if(pos>=list->size+1) return insertarFinal(list, data);
-
-	//if(pos>list->size+1) return -1;
 
 	Nodo *new;
 	Nodo *current;
@@ -192,7 +191,6 @@ int insertar(ListaD *list, char *data, int file)
 	{
 		printf("%d\t\t - \t%s\n", i,current->data);
 		current = current->next;
-		//if(current->next==NULL) return -1;
 		printf("%d\t\t - \t%s\n", i,current->data);
 	}
 
@@ -247,63 +245,70 @@ int eliminar(ListaD *list, char *data)
 			Nodo *killme;
 
 			if(pos==0) 
-			{
-				printf("No se encontró el nodo.");
-				free(killme);
+			{	
+				//free(killme);
 				return -1;
 			}
 
-			if(list->size==1)
+			else 
 			{
-				killme=list->first;
-				free(killme);
-				inicializar(list);
-				return 0;
-			}
-			else
-			{
-				if(pos==1)
+				if(list->size==1)
 				{
 					killme=list->first;
-					list->first=killme->next;
-					killme->next->previous=NULL;
-
 					free(killme);
-					list->size--;
+					inicializar(list);
+				
 					return 0;
 				}
-				if(pos==list->size)
-				{
-					killme=list->last;
-					list->last=killme->previous;
-					killme->previous->next=NULL;
-
-					free(killme);
-					list->size--;
-					return 0;
-				}
+			
 				else
 				{
-					int i;
-					Nodo *current;
-					Nodo *killme;
-					current=list->first;
-
-					for(i=1; i<=pos; i++)
+					if(pos==1)
 					{
-						if(current->next==NULL) printf("\nERROR.\n");
-						current=current->next;
+						killme=list->first;
+						list->first=killme->next;
+						killme->next->previous=NULL;
+
+						free(killme);
+						list->size--;
+					
+						return 0;
 					}
+					if(pos==list->size)
+					{
+						killme=list->last;
+						list->last=killme->previous;
+						killme->previous->next=NULL;
 
-					killme=current->previous;
-					killme->previous->next=current;
-					current->previous=killme->previous;
+						free(killme);
+						list->size--;
+					
+						return 0;
+					}
+					else
+					{
+						int i;
+						Nodo *current;
+						Nodo *killme;
+						current=list->first;
 
-					free(killme);
-					list->size--;
-					return 0;
+						for(i=1; i<=pos; i++)
+						{
+							if(current->next==NULL) 
+							current=current->next;
+						}
+
+						killme=current->previous;
+						killme->previous->next=current;
+						current->previous=killme->previous;
+
+						free(killme);
+						list->size--;
+					
+						return 0;
+					}
 				}
-			}
+			}	
 		}
 	}
 }
@@ -315,7 +320,13 @@ void eliminarLista(ListaD *list)
 	while (list->size>0)
   	{
 	    eliminar(list, current->data);
-	    current = current->next;
+	    
+	    if(current->next == NULL) break;
+	    
+	    else
+	    {
+	    	current = current->next;
+		}
   	}
 }
 
@@ -351,13 +362,6 @@ void readFile(ListaD *list)
 		data = strtok(allData, " ");
 		insertar(list, data, TRUE);
 	}
-	/*int i;
-	char data[25];
-	Nodo *new;
-
-	i = fread(data, sizeof(Nodo), 25, flist);
-	printf("Tamaño: %i", i);
-	printf("\n%s", data);*/
 }
 
 void position(int position)

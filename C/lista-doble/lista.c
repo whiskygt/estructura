@@ -159,9 +159,11 @@ int main()
 				scanf("%s", data);
 				getchar();
 
-				eliminar(list, data);
+				int flag = eliminar(list, data);
 				timer(0.5);
-				printf("\nElemento eliminado.\n");
+
+				if (flag == -1) printf("No se ha encontrado el elemento que deseaba eliminar.\n");
+				else printf("Elemento eliminado\n");
 				
 			break;
 
@@ -180,16 +182,6 @@ int main()
 		        if(lastChance=='y' || lastChance=='Y')
 		        {
           			eliminarLista(list);
-          			/*int i;
-          			Nodo *killme;
-          			killme = list->first;
-          			size = list->size;
-          			for(i=0; i<size; i++)
-          			{
-          				eliminar(list, killme->data);
-          				killme=killme->next;
-
-          			}*/
           			printf("\nSe ha eliminado la lista.\n\n");
         		}
         		else {
@@ -217,7 +209,7 @@ int main()
         		}
         		else
         		{
-					printf("\nLa lista no se ha eliminado.\n\n");
+					printf("\nLa lista no se ha guardado.\n\n");
         		}			
 
 			break;
@@ -232,16 +224,20 @@ int main()
 
 		        if(lastChance=='y' || lastChance=='Y')
 		        {
-          			eliminarLista(list);
+          			if(list->size>0) eliminarLista(list);
+          			
           			readFile(list);
+          			printf("\nLa lista se ha importado con éxito.\n");
+          			timer(0.5);
         		}
         		else {
           		
-            		printf("\nLa lista no se ha eliminado.\n\n");        			
+            		printf("\nLa lista no se ha importado.\n\n");        			
         		}
 
 			break;
 
+			//case 7:
 			case 7: exit(1);		
 			break;
 
