@@ -3,7 +3,7 @@
 
 typedef struct Card
 {
-	char *face;
+	int face;
 	char *suit;
 	int hidden;
 	struct Card *next;
