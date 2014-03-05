@@ -28,7 +28,7 @@ int searchCard(Deck *list, int face, char *wSuit);
 int insert(Deck *list, int wFace, char *wSuit, int hide);
 
 //Cambia una carta de pila. El primer argumento es su lista actual, el segundo es su destino. 
-void swapCard(Deck *origin, Deck *destination, int index);
+void swapCard(Deck *origin, Deck *destination, int index, int straight);
 
 //Elimina un elemento de la lista.
 int eliminar(Deck *list, int pos);
@@ -48,11 +48,17 @@ void setVisible(Deck *list);
 //Elimina toda la lista.
 void eliminarLista(Deck *list);
 
-//Guarda los datos de la lista en un archivo externo.
-void saveFile(Deck *list);
+//Guarda las pilas en archivos de texto.
+void saveFile(Deck *list, Deck *list2, Deck *list3, Deck *list4, Deck *list5, Deck *list6, Deck *list7, Deck *list8, Deck *list9, Deck *list10, Deck *list11, Deck *list12, Deck *list13);
 
-//Lee los datos de la lista que están escritos en un archivo externo.
-void readFile(Deck *list);
+//Escribe los datos de una lista en un archivo de texto.
+void writeList(Deck *list, FILE *fileList);
+
+//Lee las pilas en los archivos externos.
+void readFile(Deck *list, Deck *list2, Deck *list3, Deck *list4, Deck *list5, Deck *list6, Deck *list7, Deck *list8, Deck *list9, Deck *list10, Deck *list11, Deck *list12, Deck *list13);
+
+//Lee los datos de una lista que se encuentran en un archivo externo.
+void readList(Deck *list);
 
 //char transformFace(int face);
 //void transformFace(int face, char *cFace[]);
@@ -97,13 +103,11 @@ void deal()
 
 int searchCard(Deck *list, int card, char *wSuit)
 {
-	printf("IN CARD\n");
 	int out=FALSE;
 	if(list==NULL) return 0;
 	if(list->size==0) return 1;
 	else
 	{
-		printf("IN CARD2\n");
 		int i=1;
 		Card *search = NULL;
 
@@ -112,18 +116,14 @@ int searchCard(Deck *list, int card, char *wSuit)
 
 		while(search->face != card && out==FALSE)
 		{
-			printf("IN CARD3\n");
 			printf("%i\t%i\n", search->face, card);
 			//if(search->next==NULL) return 0;
 			if (search->face == card)
 			{
-				printf("IN CARD4\n");
 				if(!strcmp(search->suit, wSuit))
 				{
-					printf("IN CARD5\n");
 					if(search->hidden==FALSE)
 					{
-						printf("IN CARD6\n");
 						out = TRUE;
 					}
 				}
@@ -142,7 +142,6 @@ int searchCard(Deck *list, int card, char *wSuit)
 //TODO: Testing pending
 int searchList(Deck *list, int card, char *wSuit)
 {
-	printf("IN LIST\n");
 	int out=FALSE;
 	int found = FALSE;
 	if(list==NULL) return FALSE;
@@ -157,13 +156,10 @@ int searchList(Deck *list, int card, char *wSuit)
 			//printf("En lista: %i \t En metodo: %i\n", search->face, card);
 			if (search->face == card)
 			{
-				printf("IN LIST2\n");
 				if(!strcmp(search->suit, wSuit))
 				{
-					printf("IN LIST3\n");
 					if(search->hidden==FALSE)
 					{
-						printf("IN LIST4\n\n");
 						found = TRUE;
 						return TRUE;
 					}
@@ -220,62 +216,187 @@ int insert(Deck *list, int wFace, char *wSuit, int hide)
 	return 0;	
 }
 
-void swapCard(Deck *origin, Deck *destination, int index)
+void swapCard(Deck *origin, Deck *destination, int index, int straight)
 {
 	printf("SWAP1\n");
 	int i;
+	int flag=FALSE;
 	Card *current = NULL;
 	Card *selected = NULL;
 
 	selected = origin->first;
 	printf("SWAP2\n");
 
+	// SE ELIMINA LA(S) CARTAS DE SU PILA ACTUAL
 	if(origin->size == 1)
 	{
+		/*printf("PRUEBA\n");
+		selected->next = destination->first;
+		selected->next->previous = selected;
+		selected->previous = NULL;
+		destination->first = selected;
+		destination->size++;*/
+
+		printf("ELIMINAR ORIGIN\n");
 		startList(origin);
+		//flag = TRUE;
 	}
 	else
 	{
+		printf("INDEEEX: %i\n", index);
 		if(index == 1)
 		{
+			printf("SIZE: %i\n", origin->size);
 			printf("SWAP3\n");
-			origin->first = selected->next;
-			printf("SWAP4\n");
-			selected->next->previous = NULL;
-			printf("SWAP4v2\n");
-		}
-	
-		else
-		{
-			printf("SWAP3.1\n");
-			for(i=1; i<index; i++)
+			if(selected->next != NULL)
 			{
-				selected = selected->next;
+				printf("NO NULO\n");
 			}
 			current = selected->next;
-			selected->previous->next = current;
-			current->previous = selected->previous;
-			printf("SWAP4.1\n");
+			origin->first = current;
+			printf("SWAP4\n");
+			current->previous = NULL;
+			printf("SWAP4v2\n");
+			origin->size--;
 		}
-		origin->size--;
+
+		else
+		{
+			if (straight)
+			{
+				printf("PRESWAP AGAIN\n");
+				printf("POS STRAIGHT: %i\n", index);
+				if(index == origin->size)
+				{
+					printf("SWAP AGAIN\n");
+					selected=origin->last;
+					if(destination->size==0)
+					{
+						selected->next = NULL;
+						destination->last = selected;
+					}
+					else
+					{
+						selected->next = destination->first;
+						selected->next->previous = selected;
+					}
+
+					int j;
+					//while(selected->previous != NULL)
+					for (j=index; j>1; j--)
+					{
+						printf("SELECTEEED\n");
+						selected = selected->previous;
+					}
+					destination->first=selected;
+					destination->size = destination->size + index;
+					
+					startList(origin);
+					flag = TRUE;
+				}
+				else
+				{
+					printf("SIZE: %i\n", origin->size);
+					printf("SWAP3\n");
+					for(i=1; i<index; i++)
+					{
+						selected = selected->next;
+					}
+					if(selected->next != NULL)
+					{
+						printf("NO NULO\n");
+					}
+					current = selected->next;
+					origin->first = current;
+					printf("SWAP4\n");
+
+					current->previous = NULL;
+					printf("SWAP4v2\n");
+
+					printf("Index2: %i\n", index);
+					origin->size = origin->size - index;
+				}
+			}
+			else
+			{
+				printf("SWAP3.1\n");
+				for(i=1; i<index; i++)
+				{
+					selected = selected->next;
+				}
+				if(index = origin->size)
+				{
+					current = selected->previous;
+					current->next = NULL;
+					origin->last = current;
+					printf("SWAP 100\n");
+				}
+				else
+				{
+					current = selected->next;
+					selected->previous->next = current;
+					current->previous = selected->previous;
+					printf("SWAP4.1\n");
+				}
+				origin->size--;
+			}
+		}
+
+		printf("NUEVO SIZE: %i\n", origin->size);
 	}
-	if(destination->size==0)
+
+	// SE AGREGAN LA(S) CARTAS A LA PILA DESTINOL.
+	if (!flag)
 	{
-		printf("SWAP5.1\n");
-		selected->next = NULL;
-		selected->previous = NULL;
-		destination->first = selected;
-		destination->last = selected;
+		if(destination->size==0)
+		{
+			printf("SWAP5.1\n");
+			selected->next = NULL;
+			destination->last = selected;
+			if(!straight)
+			{
+				selected->previous = NULL;
+				destination->first = selected;
+				destination->size++;
+			}
+			else
+			{
+				while(selected->previous != NULL)
+				{
+					printf("SELECTEEED\n");
+					selected = selected->previous;
+				}
+				destination->first=selected;
+				destination->size = destination->size + index;	
+			}
+
+		printf("NUEVO SIZE 2: %i\n", destination->size);
+		}
+		else
+		{
+			printf("SWAP5.2\n");
+			selected->next = destination->first;
+			selected->next->previous = selected;
+			if(!straight)
+			{
+				selected->previous = NULL;
+				destination->first = selected;
+				destination->size++;
+			}
+			else
+			{
+				while(selected->previous != NULL)
+				{
+					printf("SELECTEEEED2\n");
+					selected= selected->previous ;
+				}
+				destination->first=selected;
+				destination->size = destination->size + index;
+			}
+		}
+		
 	}
-	else
-	{
-		printf("SWAP5.1\n");
-		selected->next = destination->first;
-		selected->previous = NULL;
-		selected->next->previous = selected;
-		destination->first = selected;
-	}
-	destination->size++;
+	printf("NUEVO SIZE 2: %i\n", destination->size);
 	printf("SWAP6\n");
 }
 
@@ -373,17 +494,18 @@ void showCardsDeck(Deck *list, Deck *list2, Deck *list3, Deck *list4, Deck *list
 
 	printf("|  | ");
 
-	if(list == NULL) printf("|  |");
-	if(list2 == NULL) printf("|  |");
-	if(list3 == NULL) printf("|  |");
-	if(list4 == NULL) printf("|  |");
-	if(list5 == NULL) printf("|  |");
+	if(list == NULL) printf("|  |1");
+	if(list2 == NULL) printf("|  |2");
+	if(list3 == NULL) printf("|  |3");
+	if(list4 == NULL) printf("|  |4");
+	if(list5 == NULL) printf("|  |5");
 
-	if(list->size==0) printf("|  |");
+	if(list->size==0) printf("|  |01");
 	else
 	{
 		current = list->first;
-
+		printf("FACE: %i, SUIT: %s\n", current->face, current->suit);
+		printf("1\n");
 		if(!strcmp(current->suit, "E"))
 		{
 			printf("|%s ♠| ", transformFace(current->face, wFace));
@@ -519,37 +641,6 @@ void showCardsDeck(Deck *list, Deck *list2, Deck *list3, Deck *list4, Deck *list
 		}
 	}
 	printf("\n");
-
-/*	if(list2 == NULL) printf("|  |");
-	if(list2->size==0) printf("|  |");
-	else 
-	{
-		current2 = list2->first;
-
-		if(!strcmp(current2->suit, "E"))
-		{
-			printf("|%d ♠| ", current2->face);
-			//printf("|♠ %d", current2->face);
-		}
-
-		if(!strcmp(current2->suit, "T"))
-		{
-			printf("|%d ♣| ", current2->face);
-			//printf("|♣ %d", current2->face);
-		}
-
-		if(!strcmp(current2->suit, "C"))
-		{
-			printf("|%s%d ♥| %s", red, current2->face, none);
-			//printf("|%s♥ %d%s", red, current2->face, none);
-		}
-
-		if(!strcmp(current2->suit, "D"))
-		{
-			printf("|%s%d ♦| %s", red, current2->face, none);
-			//printf("|%s♦ %d%s", red, current2->face, none);
-		}
-	}*/	
 	printf("\n");
 }
 
@@ -666,39 +757,186 @@ void eliminarLista(Deck *list)
   	}
 }
 
-/*void saveFile(Deck *list)
+void saveFile(Deck *list, Deck *list2, Deck *list3, Deck *list4, Deck *list5, Deck *list6, Deck *list7, Deck *list8, Deck *list9, Deck *list10, Deck *list11, Deck *list12, Deck *list13)
+{
+	FILE *lFile;
+	printf("IN GUARDAR\n");
+	lFile = fopen("/SavedGames/pile1.txt", "w");
+
+	//CODIGO NO VA ACÁ.
+	int i;
+	Card *current;
+	char *wFace;
+
+	printf("TRY1\n");
+	current=list->first;
+
+	printf("TRY2\n");
+	for(i=0; i<list->size; i++)
+	{
+		printf("TRY3\n");
+		printf("%i\n", current->face);
+		//fwrite((char *)current->data, sizeof(Node), list->size, lFile);
+		if(current->face == 10)
+		{
+			char sFace[]="T";
+			printf("TRY4\n");
+			printf("%s\n", sFace);
+			fputs(sFace, lFile);
+			printf("TRY4.1\n");
+		}
+		else
+		{
+			printf("TRY5\n");
+			fputs(transformFace(current->face, wFace), lFile);
+		}
+		//fputs(", ", lFile);
+		printf("TRY6\n");
+		fputs((char *)current->suit, lFile);
+		//fputs(", ", lFile);
+		printf("TRY7\n");
+		if(current->hidden == TRUE)
+		{
+			printf("TRY8\n");
+			fputs("1", lFile);
+		}
+		else
+		{
+			printf("TRY10\n");
+			fputs("0", lFile);
+		}
+		printf("TRY11\n");
+		//fputs("; ", lFile);
+		current=current->next;
+		printf("TRY12\n");
+	}
+	printf("TRY13\n");
+	fclose(lFile);
+	// FIN DEL CÓDIGO DESUBICADO
+
+	printf("IN GUARDAR1.1\n");
+	//writeList(list, lFile);
+
+	lFile = fopen("/SavedGames/pile2.txt", "w");
+	printf("IN GUARDAR2\n");
+	writeList(list2, lFile);
+
+	lFile = fopen("/SavedGames/pile3.txt", "w");
+	printf("IN GUARDAR3\n");
+	writeList(list3, lFile);
+
+	lFile = fopen("/SavedGames/pile4.txt", "w");
+	printf("IN GUARDAR4\n");
+	writeList(list4, lFile);
+	
+	lFile = fopen("/SavedGames/pile5.txt", "w");
+	printf("IN GUARDAR5\n");
+	writeList(list5, lFile);
+
+	lFile = fopen("/SavedGames/pile6.txt", "w");
+	printf("IN GUARDAR6\n");
+	writeList(list6, lFile);
+
+	lFile = fopen("/SavedGames/pile7.txt", "w");
+	printf("IN GUARDAR7\n");
+	writeList(list7, lFile);
+
+	lFile = fopen("/SavedGames/pile8.txt", "w");
+	printf("IN GUARDAR8\n");
+	writeList(list8, lFile);
+
+	lFile = fopen("/SavedGames/pile9.txt", "w");
+	writeList(list9, lFile);
+
+	lFile = fopen("/SavedGames/pile10.txt", "w");
+	writeList(list10, lFile);
+
+	lFile = fopen("/SavedGames/pile11.txt", "w");
+	writeList(list11, lFile);
+
+	lFile = fopen("/SavedGames/pile12.txt", "w");
+	writeList(list12, lFile);	
+
+	lFile = fopen("/SavedGames/pile13.txt", "w");
+	writeList(list13, lFile);
+}
+
+void writeList(Deck *list, FILE *fileList)
 {
 	int i;
 	Card *current;
-	
-	flist = fopen("list.txt", "w");
+	char *wFace;
 
+	printf("TRY1\n");
 	current=list->first;
 
+	printf("TRY2\n");
 	for(i=0; i<list->size; i++)
 	{
-		//fwrite((char *)current->data, sizeof(Node), list->size, flist);
-		fputs((char *)current->face, flist);
-		fputs(" ", flist);
+		printf("TRY3\n");
+		//fwrite((char *)current->data, sizeof(Node), list->size, fileList);
+		if(current->face = 10)
+		{
+			char sFace[]="T";
+			printf("TRY4\n");
+			printf("%s\n", sFace);
+			fputs(sFace, fileList);
+			printf("TRY4.1\n");
+		}
+		else
+		{
+			printf("TRY5\n");
+			fputs(transformFace(current->face, wFace), fileList);
+		}
+		//fputs(", ", fileList);
+		printf("TRY6\n");
+		fputs((char *)current->suit, fileList);
+		//fputs(", ", fileList);
+		printf("TRY7\n");
+		if(current->hidden == TRUE)
+		{
+			printf("TRY8\n");
+			fputs("1", fileList);
+		}
+		else
+		{
+			printf("TRY10\n");
+			fputs("0", fileList);
+		}
+		printf("TRY11\n");
+		//fputs("; ", fileList);
 		current=current->next;
+		printf("TRY12\n");
 	}
+	printf("TRY13\n");
+	fclose(fileList);
+}
 
-	fclose(flist);
-}*/
-
-/*void readFile(Deck *list)
+void readFile(Deck *list, Deck *list2, Deck *list3, Deck *list4, Deck *list5, Deck *list6, Deck *list7, Deck *list8, Deck *list9, Deck *list10, Deck *list11, Deck *list12, Deck *list13)
 {
-	char allData[100];
-	char *data;
+	
+	/*char allData[1000];
+	char dataList[100];
+	char dataCard[10];
+	char *faceCard;
+	char *faceSuit;
 
-	flist = fopen("list.txt", "r");
+	flist = fopen("SavedGame.txt", "r");
 
 	while(fscanf(flist, "%s", allData) != EOF)
 	{
-		data = strtok(allData, " ");
-		insert(list, data, TRUE);
-	}
-}*/
+		dataList = strtok(allData, "\n--\n");
+		dataCard = strtok(dataList, "; ");
+		faceCard = strtok(dataCard, ", ");
+		
+		//insert(list, data, TRUE);
+	}*/
+}
+
+void readList(Deck *list)
+{
+
+}
 
 void position(int position)
 {

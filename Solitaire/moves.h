@@ -12,6 +12,10 @@ void move(Deck *list, Deck *destination, int face, char *wSuit);
 //Busca una carta en todas las listas.
 int findCard(int face, char *wSuit);
 
+int getFace(Deck *list, int index);
+
+char *getSuit(Deck *list, int index);
+
 void deckTransfer()
 {
 	printf("Size deck1: %i\tSize deck2: %i\n", deckPile1->size, deckPile2->size);
@@ -20,14 +24,14 @@ void deckTransfer()
 		int i;
 		for(i=deckPile2->size; i>0; i--)
 		{
-			swapCard(deckPile2, deckPile1, 1);
+			swapCard(deckPile2, deckPile1, 1, FALSE);
 		}
 		//TODO:
 		//INSERTAR TODOS LOS ELEMENTOS DE deckPile2 en deckPile1 y luego eliminarlos de deckPile2.
 	}
 	else
 	{
-		swapCard(deckPile1, deckPile2, 1);
+		swapCard(deckPile1, deckPile2, 1, FALSE);
 	}
 }
 
@@ -106,7 +110,26 @@ void move(Deck *list, Deck *destination, int face, char *wSuit)
 	pos = searchCard(list, face, wSuit);
 	printf("POSITION: %i\n", pos);
 
-	swapCard(list, destination, pos);
+	//swapCard(list, destination, pos);
+	//printf("AFTER SWAP");
+	if(pos > 1)
+	{
+		
+		swapCard(list, destination, pos, TRUE);
+	/*	int i;
+		for(i=pos-1; i>0; i--)
+		{
+			swapCard(list, destination, i);
+		}
+	*/	
+		//swapCard(list, destination, pos-1);
+		//int cFace=getFace(list, pos-1);
+		//move(list, destination, cFace, getSuit(list, pos-1));
+	}
+	else
+	{
+		swapCard(list, destination, pos, FALSE);
+	}
 }
 
 int validateInsert(Deck *list, int face, char *wSuit, int atBuildPiles)
@@ -116,77 +139,114 @@ int validateInsert(Deck *list, int face, char *wSuit, int atBuildPiles)
 	int currentSuit;
 	int currentFace;
 
+
 	if(list->size!=0)
 	{
+		printf("VALIDATE2\n");
 		checker = list->first;
 		currentSuit = transformSuit(checker->suit);
 		currentFace = checker->face;
 
+		printf("Face anterior: %i, Face nuevo: %i\n", currentFace, face);
+		printf("Suit anterior: %s, Suit nuevo: %s\n\n", checker->suit, wSuit);
+
 		if(atBuildPiles == TRUE)
 		{
+			printf("VALIDATE3\n");
 			if(currentSuit % 2 == 1)
 			{
+				printf("VALIDATE4\n");
 				if(transformSuit(wSuit) % 2 == 0)
 				{
+					printf("VALIDATE5\n");
 					if(face == currentFace-1)
 					{
+						printf("VALIDATE6\n");
 						return TRUE;
 					}
 					else
 					{
+						printf("VALIDATE6.1\n");
 						return FALSE;
 					}
 				}
 				else
 				{
+					printf("VALIDATE5.1\n");
 					return FALSE;
 				}
 			}
 			else
 			{
-				if(transformSuit(wSuit) == currentSuit)
+				if(transformSuit(wSuit) % 2 == 1)
 				{
-					if(face == currentFace+1)
+					printf("VALIDATE99");
+					if(face == currentFace-1)
 					{
+						printf("VALIDATE100");
 						return TRUE;
 					}
 					else
 					{
+						printf("VALIDATES-100");
 						return FALSE;
 					}
 				}
 				else
 				{
+					printf("VALIDATES 101");
 					return FALSE;
 				}
 			}
 		}
 		else
 		{
-				
-		}
-	}
-	else
-	{
-		if(atBuildPiles == FALSE)
-		{
-			if(face == 1)
+			printf("VALIDATE41\n");
+			if(transformSuit(wSuit) == currentSuit)
 			{
-				return TRUE;
+				if(face == currentFace+1)
+				{
+					return TRUE;
+				}
+				else
+				{
+					return FALSE;
+				}
 			}
 			else
 			{
 				return FALSE;
 			}
 		}
-		else
+	}
+	else
+	{
+		printf("VALIDATE7\n");
+		if(atBuildPiles == FALSE)
 		{
-			if(face == 13)
+			printf("VALIDATE8\n");
+			if(face == 1)
 			{
+				printf("VALIDATE9\n");
 				return TRUE;
 			}
 			else
 			{
+				printf("VALIDATE9.1\n");
+				return FALSE;
+			}
+		}
+		else
+		{
+			printf("VALIDATE8.1\n");
+			if(face == 13)
+			{
+				printf("VALIDATE8.2\n");
+				return TRUE;
+			}
+			else
+			{
+				printf("VALIDATE8.2.2\n");
 				return FALSE;
 			}
 		}
@@ -268,3 +328,65 @@ int findCard(int face, char *wSuit)
 	}
 }
 
+int getFace(Deck *list, int index)
+{
+	Card *current = NULL;
+	current = list->first;
+
+	int i;
+
+	for(i=1; i<index; i++)
+	{
+		current = current->next;
+	}
+
+	return current->face;
+}
+
+char *getSuit(Deck *list, int index)
+{
+	Card *current = NULL;
+	current = list->first;
+
+	int i;
+
+	for(i=1; i<index; i++)
+	{
+		current = current->next;
+	}
+
+	return current->suit;
+}
+
+int gameFinished()
+{
+	printf("FINISHED 1'\n");
+	Card *end = NULL;
+	end = cardPile1->first;
+	printf("%s\n", end->suit);
+	if(strcmp(end->suit, "K"))
+	{
+		return FALSE;
+	}
+	printf("FINISHED 2'\n");
+	end = cardPile2->first;
+	if(strcmp(end->suit, "K"))
+	{
+		return FALSE;
+		
+	}
+	end = cardPile3->first;
+	printf("FINISHED 3'\n");
+	if(strcmp(end->suit, "K"))
+	{
+		return FALSE;
+	}
+	end = cardPile4->first;
+	printf("FINISHED 4'\n");
+	if(strcmp(end->suit, "K"))
+	{
+		return FALSE;
+	}
+	printf("FINISHED FINAL\n");
+	return TRUE;
+}

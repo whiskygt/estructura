@@ -44,7 +44,7 @@ int showGame()
 {
 	system("clear");
 	hideCard(FALSE);
-	printf("-----------------------------------------------------------\n");
+	printf("----------------------------------------------------------------------------------\n");
 	printf("Deck: ");
 	showCardsDeck(deckPile2, cardPile1, cardPile2, cardPile3, cardPile4);
 	//showCards(deckPile2);
@@ -58,7 +58,7 @@ int showGame()
 	printf("Pila 2: ");
 	showCardsBP(buildPile2);
 
-	printf("Pila3 : ");
+	printf("Pila 3: ");
 	showCardsBP(buildPile3);
 
 	printf("Pila 4: ");
@@ -73,7 +73,7 @@ int showGame()
 	printf("Pila 7: ");
 	showCardsBP(buildPile7);
 
-	printf("-----------------------------------------------------------\n");
+	printf("----------------------------------------------------------------------------------\n");
 
 	return 0;
 }
@@ -120,7 +120,7 @@ void dealCards()
 
 	insert(buildPile7, deck[27].face, deck[27].suit, TRUE);
 			
-	for(j=52; j>28; j--)
+	for(j=51; j>27; j--)
 	{
 		insert(deckPile1, deck[j].face, deck[j].suit, TRUE);	
 	}
@@ -158,6 +158,7 @@ int menu(int fMenu)
   			printf("1. Siguiente carta del deck.\n");
   			printf("2. Mover carta.\n");
   			printf("3. Mostrar ayuda.\n");
+  			printf("4. Guardar Juego\n");
   		break;
 
   		case 1:
@@ -179,6 +180,7 @@ int menu(int fMenu)
 
 void showTitle()
 {
+	system("clear");
 	printf("%s", blue);
 	printf("\n**********************************************************************************************************\n");
 	printf("*     **********  **********  ***         ****  **********    ****     **********   ****  **********     *\n");
@@ -198,11 +200,11 @@ void showTitle()
 
 int main()
 {
+	system("mkdir SavedGames");
+
 	struct timeval ti, tf;
 	double elapsedTime;
-
-	gettimeofday(&ti, NULL);
-
+	int finished=FALSE;
 	int option;
 	showTitle();
 
@@ -230,8 +232,18 @@ int main()
 		{
 			case 1:
 				dealCards();
+
+				//INICIA EL CRONÓMETRO.
+				
+
+				gettimeofday(&ti, NULL);
+
 				while(option != 9)
 				{
+					if(finished)
+					{
+						break;
+					}
 					//showList(deckPile);
 					option = menu(FALSE);
 					if (option == 0)
@@ -339,21 +351,41 @@ int main()
 
 									case 8:
 										moveCard(cardPile1, face, suit, FALSE);
+										if(gameFinished())
+										{
+											printf("Felicidades, ha ganado el juego\n");
+											finished = TRUE;
+										}
 										printf("\nNew:%i\n", newPosition);
 									break;
 
 									case 9:
 										moveCard(cardPile2, face, suit, FALSE);
+										if(gameFinished())
+										{
+											printf("Felicidades, ha ganado el juego\n");
+											finished = TRUE;
+										}
 										printf("\nNew:%i\n", newPosition);
 									break;
 
 									case 10:
 										moveCard(cardPile3, face, suit, FALSE);
+										if(gameFinished())
+										{
+											printf("Felicidades, ha ganado el juego\n");
+											finished = TRUE;
+										}
 										printf("\nNew:%i\n", newPosition);
 									break;
 
 									case 11:
 										moveCard(cardPile4, face, suit, FALSE);
+										if(gameFinished())
+										{
+											printf("Felicidades, ha ganado el juego\n");
+											finished = TRUE;
+										}
 										printf("\nNew:%i\n", newPosition);
 									break;
 
@@ -368,6 +400,9 @@ int main()
 								//TODO:
 								//Implementar método para mostrar ayuda, también será usado en el menú principal.
 							break;
+
+							case 4:
+								saveFile(buildPile1, buildPile2, buildPile3, buildPile4, buildPile5, buildPile6, buildPile7, cardPile1, cardPile2, cardPile3, cardPile4, deckPile1, deckPile2);
 						}
 					}
 				}
