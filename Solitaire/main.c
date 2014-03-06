@@ -403,6 +403,12 @@ int main()
 
 							case 4:
 								saveFile(buildPile1, buildPile2, buildPile3, buildPile4, buildPile5, buildPile6, buildPile7, cardPile1, cardPile2, cardPile3, cardPile4, deckPile1, deckPile2);
+							break;
+
+							case 5: 
+								printf("PRUEBA\n");
+								readFile(buildPile1, buildPile2, buildPile3, buildPile4, buildPile5, buildPile6, buildPile7, cardPile1, cardPile2, cardPile3, cardPile4, deckPile1, deckPile2);
+							break;
 						}
 					}
 				}

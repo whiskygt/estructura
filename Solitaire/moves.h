@@ -362,28 +362,29 @@ int gameFinished()
 {
 	printf("FINISHED 1'\n");
 	Card *end = NULL;
+	if(cardPile1->size == 0 || cardPile2->size ==0 || cardPile3->size ==0 || cardPile4->size ==0) return FALSE;
 	end = cardPile1->first;
-	printf("%s\n", end->suit);
-	if(strcmp(end->suit, "K"))
+	printf("%i\n", end->face);
+	if(end->face != 13)
 	{
 		return FALSE;
 	}
 	printf("FINISHED 2'\n");
 	end = cardPile2->first;
-	if(strcmp(end->suit, "K"))
+	if(end->face != 13)
 	{
 		return FALSE;
 		
 	}
 	end = cardPile3->first;
 	printf("FINISHED 3'\n");
-	if(strcmp(end->suit, "K"))
+	if(end->face != 13)
 	{
 		return FALSE;
 	}
 	end = cardPile4->first;
 	printf("FINISHED 4'\n");
-	if(strcmp(end->suit, "K"))
+	if(end->face != 13)
 	{
 		return FALSE;
 	}
