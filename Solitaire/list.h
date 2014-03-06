@@ -3,6 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include "card.h"
+#include "color.h"
 #define TRUE 1
 #define FALSE 0
 
@@ -16,20 +17,37 @@ typedef struct Deck
 FILE *flist;
 int pos=0;
 Card deck[52];
+int x;
 
 //Inicializa la lista.
 void startList(Deck *list);
 
 //Busca la ubicación del nodo.
-int searchNode(Deck *list, char *data);
+int searchNode(Deck *list, int data);
 
-int insert(Deck *list, char *wFace, char *wSuit, int hide);
+int insert(Deck *list, int wFace, char *wSuit, int hide);
+
+//Cambia la carta del Deck. Si el deck1 vacío entonces inserta todas las cartas que están en el deck2 en el deck 1.
+//El primer argumento es su lista actual, el segundo es su destino. 
+void swapCard(Deck *origin, Deck *destiny);
 
 //Elimina un elemento de la lista.
-int eliminar(Deck *list, char *data);
+int eliminar(Deck *list, int pos);
 
 //Imprime la lista.
 void showList(Deck *list);
+
+//Imprime las cartas que se encuentran en la BuildPile.
+void showCardsBP(Deck *list);
+
+//Imprime las cartas que se encuentran en el Deck.
+void showCardsDeck(Deck *list, Deck *list2);
+
+//Imprime las cartas que se encuentran en las Pilas finales.
+void showCardsCP(Deck *list);
+
+//Establece que cartas se pueden ver.
+void setVisible(Deck *list);
 
 //Elimina toda la lista.
 void eliminarLista(Deck *list);
@@ -49,12 +67,15 @@ void startList(Deck *list)
 
 void deal()
 {
-	char *face[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"};
+	int i;
+	int face[13];
+	for(i=0; i<13; i++)
+	{
+		face[i]=i+1;
+	}
 	char *suit[] = {"C", "E", "T", "D"};
 
 	srand(time(NULL));
-
-	int i;
 
 	for (i = 0; i <= 51; i++ )
 	{
@@ -74,7 +95,7 @@ void deal()
 	}
 }
 
-int searchNode(Deck *list, char *data)
+int searchNode(Deck *list, int data)
 {
 	if(list==NULL) return 0;
 	if(list->size==0) return 1;
@@ -82,11 +103,11 @@ int searchNode(Deck *list, char *data)
 	else
 	{
 		int i=1;
-		Card *search;
+		Card *search = NULL;
 
 		search = list->first;
 
-		while(strcmp(data, search->face))
+		while(search->face = data)
 		{
 			if(search->next==NULL) return 0;
 			search=search->next;
@@ -97,174 +118,93 @@ int searchNode(Deck *list, char *data)
 	}
 }
 
-int insert(Deck *list, char *wFace, char *wSuit, int hide)
+int searchList(Deck *list, int card, char *wSuit)
 {
-	printf("FLAG 6");
+	int out=FALSE;
+	if(list==NULL) return FALSE;
+	if(list->size==0) return FALSE;
+	else
+	{
+		Card *search = NULL;
+		search = list->first;
+
+		while(search->face != card && out==FALSE)
+		{
+			if(search->next == NULL) return FALSE;
+			search = search->next;
+			if (search->face == card)
+			{
+				if(!strcmp(search->suit, wSuit))
+				{
+					out = TRUE;
+					return TRUE;
+				}
+			}
+		}
+		
+	}
+
+}
+
+int insert(Deck *list, int wFace, char *wSuit, int hide)
+{
+
 	if (list==NULL) return -1;
 
-	Card *new;
+	Card *new = NULL;
 
 	if((new = (Card*) malloc (sizeof (Card))) == NULL)
 	{
 		return -1;
 	}
-
-	strcpy(new->face, wFace);
-	strcpy(new->suit, wSuit);
-	
+	new->face=wFace;
+	new->suit = wSuit;
+	//strcpy(new->suit, wSuit);
+	if(hide == TRUE)
+	{
+		new->hidden = TRUE;
+	}
+	else
+	{
+		new->hidden = FALSE;
+	}
 
 	if (list->size==0)
 	{
 		new->next=NULL;
+		new->previous=NULL;
 		list->first=new;
 		list->last=new;
 	}
 	else
 	{
 		new->next=list->first;
+		new->previous=NULL;	
+		new->next->previous=new;
 		list->first=new;
 	}
 
-	list->size++;
+
+	list->size++;	
 	return 0;	
 }
 
-/*int insertarVacio(Deck *list, char *data)
+void swapCard(Deck *origin, Deck *destiny)
 {
-	if(list->size!=0)
-	{
-		return -1;
-	}
 
-	Node *new;
-
-	if((new = (Node*) malloc (sizeof (Node))) == NULL)
-	{
-		return -1;
-	}
-
-	strcpy(new->selected.face, data);
-
-	new->next=NULL;
-	new->previous=NULL;
-	list->first=new;
-	list->last=new;
-	list->size++;
-
-	return 0;
 }
-
-int insertarInicio(Deck *list, char *data)
-{
-	if (list==NULL) return -1;
-
-	if (list->size==0) insertarVacio(list, data);
-
-	Node *new;
-
-	if((new = (Node*) malloc (sizeof (Node))) == NULL)
-	{
-		return -1;
-	}
-
-	strcpy(new->selected.face, data);
-
-	new->next=list->first;
-	new->previous=NULL;	
-	new->next->previous=new;
-	list->first=new;
-	list->size++;
-
-	return 0;	
-}
-
-int insertarFinal(Deck *list, char *data)
-{
-	if (list==NULL) return -1;
-
-	if (list->size==0) insertarVacio(list, data);
-
-	Node *new;
-
-	if((new = (Node*) malloc (sizeof (Node))) == NULL)
-	{
-		return -1;
-	}
-
-	strcpy(new->selected.face, data);
-
-	new->next=NULL;
-	new->previous=list->last;
-	new->previous->next=new;
-	list->last=new;
-	list->size++;
-
-	return 0;
-}
-
-int insertar(Deck *list, char *data, int file)
-{
-
-	if (list==NULL) return -1;
-
-	if(list->size==0) return insertarVacio(list, data);
-
-	//pos = searchNode(list, data);
-
-	if (file)
-	{		
-		pos=list->size+1;
-	}
-
-	if(pos==1) return insertarInicio(list, data);
-
-	if(pos>=list->size+1) return insertarFinal(list, data);
-
-	//if(pos>list->size+1) return -1;
-
-	Node *new;
-	Node *current;
-	int i;
-
-	if ((new = (Node*) malloc (sizeof (Node))) == NULL)
-	{
-		return -1;
-	}
-
-	current=list->first;
-
-	for(i=1; i<pos; i++)
-	{
-		printf("%d\t\t - \t%s\n", i,current->selected.face);
-		current = current->next;
-		//if(current->next==NULL) return -1;
-		printf("%d\t\t - \t%s\n", i,current->selected.face);
-	}
-
-	strcpy(new->selected.face, data);
-	
-	new->previous = current->previous;
-	new->next = current;
-	current->previous->next = new;
-	current->previous = new;
-	
-	list->size++;
-	return 0;
-
-}*/
 
 void showList(Deck *list)
 {
-	Card *current;
+	Card *current = NULL;
 	current = list->first;
 	int i=1;
 
   	printf("-- ELEMENTOS DE LA LISTA --\n");
-  	printf("Posición\t -\tValor\n");
 
 	while(current != NULL)
 	{
-    	printf("\nCarta: %s%s", current->face, current->suit);
+    	printf("\nCarta: %d%s", current->face, current->suit);
 		current = current->next;
 		i++;
 	}
@@ -272,7 +212,165 @@ void showList(Deck *list)
   getchar();
 }
 
-int eliminar(Deck *list, char *data)
+void showCardsBP(Deck *list)
+{
+	Card *current = NULL;
+	current = list->last;
+	//int i=1;
+	//int line;
+	//printf("\n");
+	
+	while(current != NULL)
+	{
+		/*if(i==list->size+1) 
+		{
+			//printf("\n");
+			current = list->last;
+			line = FALSE;
+		}
+		else
+		{
+			line=TRUE;
+		}*/
+
+		if(current->hidden==TRUE)
+		{
+			//printf("|");
+			printf("|");
+		}
+		else
+		{
+			//printf("%s", current->suit);
+			if(!strcmp(current->suit, "E"))
+			{
+				printf("|%d ♠| ", current->face);
+				//printf("|♠ %d", current->face);
+			}
+			if(!strcmp(current->suit, "T"))
+			{
+				printf("|%d ♣| ", current->face);
+				//printf("|♣ %d", current->face);
+			}
+			if(!strcmp(current->suit, "C"))
+			{
+				printf("|%s%d ♥| %s", red, current->face, none);
+				//printf("|%s♥ %d%s", red, current->face, none);
+			}
+			if(!strcmp(current->suit, "D"))
+			{
+				printf("|%s%d ♦| %s", red, current->face, none);
+				//printf("|%s♦ %d%s", red, current->face, none);
+			}
+			//printf("|%d%s", current->face, current->suit);	
+		}
+		current = current->previous;
+		//printf("\nBEFORE IF\n");
+		//i++;
+		//if(i==list->size) line = TRUE;
+
+	}
+	printf("\n");
+}
+
+void showCardsDeck(Deck *list, Deck *list2)
+{
+	Card *current = NULL;
+	Card *current2 = NULL;
+
+	if(list == NULL) printf("|  |");
+	if(list->size==0) printf("|  |");
+	else 
+	{
+		current = list->first;
+
+		if(!strcmp(current->suit, "E"))
+		{
+			printf("|%d ♠| ", current->face);
+			//printf("|♠ %d", current->face);
+		}
+
+		if(!strcmp(current->suit, "T"))
+		{
+			printf("|%d ♣| ", current->face);
+			//printf("|♣ %d", current->face);
+		}
+
+		if(!strcmp(current->suit, "C"))
+		{
+			printf("|%s%d ♥| %s", red, current->face, none);
+			//printf("|%s♥ %d%s", red, current->face, none);
+		}
+
+		if(!strcmp(current->suit, "D"))
+		{
+			printf("|%s%d ♦| %s", red, current->face, none);
+			//printf("|%s♦ %d%s", red, current->face, none);
+		}
+	}
+
+	if(list2 == NULL) printf("|  |");
+	if(list2->size==0) printf("|  |");
+	else 
+	{
+		current2 = list2->first;
+
+		if(!strcmp(current2->suit, "E"))
+		{
+			printf("|%d ♠| ", current2->face);
+			//printf("|♠ %d", current2->face);
+		}
+
+		if(!strcmp(current2->suit, "T"))
+		{
+			printf("|%d ♣| ", current2->face);
+			//printf("|♣ %d", current2->face);
+		}
+
+		if(!strcmp(current2->suit, "C"))
+		{
+			printf("|%s%d ♥| %s", red, current2->face, none);
+			//printf("|%s♥ %d%s", red, current2->face, none);
+		}
+
+		if(!strcmp(current2->suit, "D"))
+		{
+			printf("|%s%d ♦| %s", red, current2->face, none);
+			//printf("|%s♦ %d%s", red, current2->face, none);
+		}
+	}
+	
+
+	
+	printf("\n");
+}
+
+void setHidden(Deck *list, int choice)
+{
+	Card *current = NULL;
+	if(list->size==0) return;
+	else
+	{
+		if(choice==FALSE)
+		{
+			current = list->first;
+			current->hidden=FALSE;
+		}
+		else
+		{
+			if(current->next == NULL) return;
+			current = current->next;
+			printf("INTENTAR OCULTAR\n");
+			while(current != NULL)
+			{
+				current->hidden=TRUE;
+		printf("SECOND\n");
+				current = current->next;
+			}
+		}
+	}
+}
+
+int eliminar(Deck *list, int pos)
 {
 	if(list==NULL)
 	{
@@ -287,14 +385,13 @@ int eliminar(Deck *list, char *data)
 		}
 		else
 		{
-			int pos;
-			pos = searchNode(list, data);
-			Card *killme;
+			Card *killme = NULL;
 
 			if(pos==0) 
 			{
 				printf("No se encontró el Card.\n");
 				free(killme);
+				killme = NULL;
 				return -1;
 			}
 
@@ -302,6 +399,7 @@ int eliminar(Deck *list, char *data)
 			{
 				killme=list->first;
 				free(killme);
+				killme = NULL;
 				//inicializar(list);
 				printf("\nElemento eliminado.\n");
 				return 0;
@@ -314,28 +412,17 @@ int eliminar(Deck *list, char *data)
 					list->first=killme->next;
 
 					free(killme);
+					killme = NULL;
 					list->size--;
 					printf("\nElemento eliminado.\n");
 					return 0;
 				}
 
-/*				if(pos==list->size)
-				{
-					killme=list->last;
-					list->last=killme->previous;
-					killme->previous->next=NULL;
-
-					free(killme);
-					list->size--;
-					printf("\nElemento eliminado.\n");
-					return 0;
-				}
-*/
 				else
 				{
 					int i;
 					Card *current;
-					Card *killme;
+					Card *killme = NULL;
 					current=list->first;
 
 					for(i=1; i<pos-1; i++)
@@ -348,6 +435,8 @@ int eliminar(Deck *list, char *data)
 					current->next=killme->next;
 
 					free(killme);
+					killme = NULL;
+
 					list->size--;
 					printf("\nElemento eliminado.\n");
 					return 0;
@@ -359,7 +448,7 @@ int eliminar(Deck *list, char *data)
 
 void eliminarLista(Deck *list)
 {
-	Card *current;
+	Card *current = NULL;
 	current = list->first;
 	while (list->size>0)
   	{
@@ -368,7 +457,7 @@ void eliminarLista(Deck *list)
   	}
 }
 
-void saveFile(Deck *list)
+/*void saveFile(Deck *list)
 {
 	int i;
 	Card *current;
@@ -386,7 +475,7 @@ void saveFile(Deck *list)
 	}
 
 	fclose(flist);
-}
+}*/
 
 /*void readFile(Deck *list)
 {
@@ -405,11 +494,4 @@ void saveFile(Deck *list)
 void position(int position)
 {
 	pos=position;
-}
-
-char* getSuit(Deck *list)
-{
-	Card *current;
-	current = list->first;
-	return current->suit;
 }
